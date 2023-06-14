@@ -4,7 +4,6 @@ on:
     name:
       description: 'run e2e openstack  extended tests on Self hosted runner'
   workflow_call:
-
   issue_comment:
     types: [ created ]
 
@@ -16,6 +15,7 @@ concurrency:
 # A workflow run is made up of one or more jobs that can run sequentially
 jobs:
   create_ovirt_runner:
+    if: github.event.issue.pull_request && contains(github.event.comment.body, '/test-osp-extended')
     runs-on: ubuntu-latest
     steps:
       - name: prepare the secrets
@@ -28,6 +28,7 @@ jobs:
         uses: kubev2v/forkliftci/ci/create-self-runner@v4.0
 
   ci_setup:
+    if: github.event.issue.pull_request && contains(github.event.comment.body, '/test-osp-extended')
     runs-on: self-hosted
     #runs-on: ubuntu-latest
     needs: create_ovirt_runner
