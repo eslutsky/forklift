@@ -17,12 +17,14 @@ jobs:
   create_ovirt_runner:
     if: github.event_name == 'workflow_dispatch' ||
         ( github.event_name == 'issue_comment' &&
-          startsWith(github.event.comment.body, '/test-osp-extended') && (
-          github.event.comment.author_association == 'MEMBER' ||
-          github.event.comment.author_association == 'COLLABORATOR')
+          startsWith(github.event.comment.body, '/test-osp-extended')
         )
     runs-on: ubuntu-latest
     steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
       - name: Get PR branch
         uses: xt0rted/pull-request-comment-branch@v1
         id: comment-branch

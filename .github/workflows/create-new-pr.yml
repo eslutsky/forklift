@@ -5,8 +5,9 @@ on:
 
 jobs:
   new_pr_greeter:
-    if: github.event.comment.author_association == 'MEMBER' ||
-      github.event.comment.author_association == 'COLLABORATOR'
+    if: github.event.pull_request.author_association == 'MEMBER' ||
+      github.event.pull_request.author_association == 'COLLABORATOR' ||
+      github.event.pull_request.author_association == 'OWNER'
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
